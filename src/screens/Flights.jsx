@@ -9,6 +9,7 @@ export default function Flights() {
     const [filteredFlights, setFilteredFlights] = useState([]);
 
     useEffect(() => {
+        console.log("fetch runs");
         // Fetch the flights from the API
         fetch('https://localhost:44359/api/flight/search')
             .then(response => response.json())
