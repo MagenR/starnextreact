@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 
-import Container from '@mui/material/Container';
+//import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -29,7 +29,7 @@ export default function FlightsFilter(props) {
     const maxPrice = Math.max(...uniquePrices);
     const marks = uniquePrices.map(price => {
         return {
-            label: price,
+            //label: price,
             value: price
         }
     });
@@ -39,17 +39,17 @@ export default function FlightsFilter(props) {
     ))];
 
     const [selectedAirlines, setSelectedAirlines] = useState(() => {
-        return uniqueAirlines
+        return uniqueAirlines;
     });
     const [priceRange, setPriceRange] = useState(() => {
-        return [minPrice, maxPrice]
+        return [minPrice, maxPrice];
     });
     const [selectedLegs, setSelectedLegs] = useState(() => {
         return [...uniqueLegs, 0];
     });
 
     useEffect(() => {
-        console.log("filter applied");
+        //console.log("filter applied");
         applyFilter();
     }, [selectedAirlines, selectedLegs]);
 
@@ -71,20 +71,7 @@ export default function FlightsFilter(props) {
             setSelectedLegs([...selectedLegs, parseInt(name)]);
         }
     }
-
-
-    // const handlePriceRangeChange = (event) => {
-    //     const { value } = event.target;
-    //     setPriceRange(value.split("-").map(Number));
-    // }
-
-    // const handleRangeChange = (event) => {
-    //     const { value } = event.target;
-    //     setPriceRange({
-    //         min: value[0],
-    //         max: value[1]
-    //     });
-    // }
+    
     const handleRangeChange = (event, newValue) => {
         setPriceRange(newValue);
     }
@@ -108,7 +95,7 @@ export default function FlightsFilter(props) {
             flight.averagePrice >= priceRange[0] &&
             flight.averagePrice <= priceRange[1]);
 
-        console.log(selectedLegs);
+        //console.log(selectedLegs);
 
         // Filter by price Legs.
         filteredFlights = filteredFlights.filter(flight =>

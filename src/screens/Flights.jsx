@@ -3,6 +3,7 @@ import Container from '@mui/material/Container';
 
 import FlightsTable from '../components/FlightsTable';
 import FlightsFilter from '../components/FlightsFilter';
+import Typography from '@mui/material/Typography';
 
 export default function Flights() {
 
@@ -21,7 +22,13 @@ export default function Flights() {
 
     return (
         <Container fixed>
+            <Typography variant="h3" sx={{ textAlign: 'center', padding: 2 }}>
+                Flight App
+            </Typography>
             <FlightsFilter flights={flights} setFilteredFlights={setFilteredFlights} />
+            <Typography variant="h4" sx={{ textAlign: 'center', padding: 2 }}>
+                Flights Table
+            </Typography>
             <FlightsTable flights={filteredFlights} />
         </Container>
     );
