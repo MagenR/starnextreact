@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Container from '@mui/material/Container';
 
 import FlightsTable from '../components/FlightsTable';
 import FlightsFilter from '../components/FlightsFilter';
@@ -19,9 +20,9 @@ export default function Flights() {
     }, []);
 
     return (
-        <>
+        <Container fixed>
             <FlightsFilter flights={flights} setFilteredFlights={setFilteredFlights} />
             <FlightsTable flights={filteredFlights} />
-        </>
+        </Container>
     );
 }

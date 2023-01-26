@@ -3,13 +3,27 @@ import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 
+import Container from '@mui/material/Container';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Unstable_Grid2';
+import Typography from '@mui/material/Typography';
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    //textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
+
 export default function FlightsFilter(props) {
 
     const { flights } = props;
     const { setFilteredFlights } = props;
 
     const uniqueAirlines = [...new Set(flights.flatMap(flight => flight.segments.flatMap(segment => segment.legs.map(leg => leg.airlineName))))];
-    
+
     const uniquePrices = [...new Set(flights.map(flight => flight.averagePrice))];
     const minPrice = Math.min(...uniquePrices);
     const maxPrice = Math.max(...uniquePrices);
@@ -23,7 +37,7 @@ export default function FlightsFilter(props) {
     const uniqueLegs = [...new Set(flights.flatMap(flight =>
         flight.segments.flatMap(segment => segment.legs.length)
     ))];
-    
+
     const [selectedAirlines, setSelectedAirlines] = useState(() => {
         return uniqueAirlines
     });
@@ -88,13 +102,13 @@ export default function FlightsFilter(props) {
                 )
             )
         );
-        
+
         // Filter by price range.
         filteredFlights = filteredFlights.filter(flight =>
             flight.averagePrice >= priceRange[0] &&
             flight.averagePrice <= priceRange[1]);
 
-            console.log(selectedLegs);
+        console.log(selectedLegs);
 
         // Filter by price Legs.
         filteredFlights = filteredFlights.filter(flight =>
@@ -107,52 +121,69 @@ export default function FlightsFilter(props) {
     }
 
     return (
-        <div>
-            {/* Airline Filter */}
-            <div>
-                {uniqueAirlines.map(airline => (
-                    <div key={airline}>
-                        <input
-                            type="checkbox"
-                            name={airline}
-                            checked={selectedAirlines.includes(airline)}
-                            onChange={handleCheckboxChange}
-                        />
-                        <label>{airline}</label>
-                    </div>
-                ))}
-            </div>
-            {/* Price Filter */}
-            <div>
-                <Box sx={{ padding: 10 }}>
-                    <Slider
-                        getAriaLabel={() => 'Price range'}
-                        value={priceRange}
-                        onChange={handleRangeChange}
-                        onChangeCommitted={applyFilter}
-                        valueLabelDisplay="auto"
-                        min={minPrice}
-                        max={maxPrice}
-                        step={null}
-                        marks={marks}
-                    // getAriaValueText={valuetext}
-                    />
-                </Box>
-            </div>
-            {/* Number of Max Legs Filter */}
-            <div>
-                {uniqueLegs.map(leg => (
-                    <div key={leg}>
-                        <input
-                            type="checkbox"
-                            name={leg}
-                            checked={selectedLegs.includes(leg)}
-                            onChange={handleLegCheckboxChange}
-                        />
-                        <label>{leg}</label>
-                    </div>
-                ))}
-            </div>
-        </div>
+        <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2}>
+                {/* Airline Filter */}
+                <Grid xs={12} md={8}>
+                    <Item>
+                        <Typography variant="h5" gutterBottom>
+                            Airlines
+                        </Typography>
+                        {uniqueAirlines.map(airline => (
+                            <div key={airline}>
+                                <input
+                                    type="checkbox"
+                                    name={airline}
+                                    checked={selectedAirlines.includes(airline)}
+                                    onChange={handleCheckboxChange}
+                                />
+                                <label>{airline}</label>
+                            </div>
+                        ))}
+                    </Item>
+                </Grid>
+                {/* Number of Max Legs Filter */}
+                <Grid xs={12} md={4}>
+                    <Item>
+                        <Typography variant="h5" gutterBottom>
+                            Legs
+                        </Typography>
+                        {uniqueLegs.map(leg => (
+                            <div key={leg}>
+                                <input
+                                    type="checkbox"
+                                    name={leg}
+                                    checked={selectedLegs.includes(leg)}
+                                    onChange={handleLegCheckboxChange}
+                                />
+                                <label>{leg}</label>
+                            </div>
+                        ))}
+                    </Item>
+                </Grid>
+                {/* Price Filter */}
+                <Grid xs={12}>
+                    <Item>
+                        <Typography variant="h5" gutterBottom>
+                            Price
+                        </Typography>
+                        <Box sx={{ padding: 2 }}>
+                            <Slider
+                                getAriaLabel={() => 'Price range'}
+                                value={priceRange}
+                                onChange={handleRangeChange}
+                                onChangeCommitted={applyFilter}
+                                valueLabelDisplay="auto"
+                                min={minPrice}
+                                max={maxPrice}
+                                step={null}
+                                marks={marks}
+                            // getAriaValueText={valuetext}
+                            />
+                        </Box>
+                    </Item>
+                </Grid>
+            </Grid>
+        </Box>
     );
 }
