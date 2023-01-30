@@ -45,13 +45,15 @@ export default function FlightsFilter(props) {
         return [minPrice, maxPrice];
     });
     const [selectedLegs, setSelectedLegs] = useState(() => {
-        return [...uniqueLegs, 0];
+        return [...uniqueLegs];
     });
 
     useEffect(() => {
-        //console.log("filter applied");
-        applyFilter();
-    }, [selectedAirlines, selectedLegs]);
+        console.log("filter applied");
+
+        // console.log(minPrice + ' ' + maxPrice);
+        updateFilteredFlights();
+    }, [flights, selectedAirlines, selectedLegs]);
 
     const handleCheckboxChange = (event) => {
         const { name } = event.target;
@@ -60,6 +62,10 @@ export default function FlightsFilter(props) {
         } else {
             setSelectedAirlines([...selectedAirlines, name]);
         }
+    }
+
+    const updateFilteredFlights = () => {
+        setFilteredFlights(applyFilter());
     }
 
     const handleLegCheckboxChange = (event) => {
@@ -71,7 +77,7 @@ export default function FlightsFilter(props) {
             setSelectedLegs([...selectedLegs, parseInt(name)]);
         }
     }
-    
+
     const handleRangeChange = (event, newValue) => {
         setPriceRange(newValue);
     }
@@ -80,31 +86,41 @@ export default function FlightsFilter(props) {
     // Filter the results and update the list to render.
     // --------------------------------------------------------------------------------------------
     const applyFilter = () => {
+        // Check if filters are applied, store in boolean variables.
+        const allAirlines = selectedAirlines.length === 0 || selectedAirlines.length == uniqueAirlines;
+        const allLegs = selectedLegs.length === 0 || selectedLegs.length == uniqueLegs;
+        const fullPriceRange = (priceRange[0] === Infinity && priceRange[1] === -Infinity) ||
+        (priceRange[0] === minPrice && priceRange[1] === maxPrice);
 
-        // Filter by airline names.
-        let filteredFlights = flights.filter(flight =>
+        // If not filter is applied or max filter is applied (everything), no need to filter.
+        if(allAirlines && allLegs && fullPriceRange)
+            return flights;
+
+
+        return flights.filter(flight =>
             flight.segments.every(segment =>
-                segment.legs.every(leg =>
-                    selectedAirlines.includes(leg.airlineName)
-                )
-            )
-        );
+                (allAirlines || segment.legs.every(leg =>
+                    selectedAirlines.includes(leg.airlineName)) 
+                ) && (allLegs ||
+                selectedLegs.includes(segment.legs.length))
+            ) && (fullPriceRange ||
+            (flight.averagePrice >= priceRange[0] &&
+                flight.averagePrice <= priceRange[1]))
+        )
+    }
 
-        // Filter by price range.
-        filteredFlights = filteredFlights.filter(flight =>
-            flight.averagePrice >= priceRange[0] &&
-            flight.averagePrice <= priceRange[1]);
 
-        //console.log(selectedLegs);
 
-        // Filter by price Legs.
-        filteredFlights = filteredFlights.filter(flight =>
-            flight.segments.every(segment =>
-                selectedLegs.includes(segment.legs.length)
-            )
-        );
+    function isAirlineIncluded(leg) {
+        return selectedAirlines.includes(leg.airlineName);
+    }
 
-        setFilteredFlights(filteredFlights);
+    function isLegIncluded(segment) {
+       return selectedLegs.includes(segment.legs.length); 
+    }
+
+    function IsInPriceRange(flight) {
+        return flight.averagePrice >= priceRange[0] && flight.averagePrice <= priceRange[1];
     }
 
     return (
@@ -121,7 +137,7 @@ export default function FlightsFilter(props) {
                                 <input
                                     type="checkbox"
                                     name={airline}
-                                    checked={selectedAirlines.includes(airline)}
+                                    //checked={selectedAirlines.includes(airline)}
                                     onChange={handleCheckboxChange}
                                 />
                                 <label>{airline}</label>
@@ -140,7 +156,7 @@ export default function FlightsFilter(props) {
                                 <input
                                     type="checkbox"
                                     name={leg}
-                                    checked={selectedLegs.includes(leg)}
+                                    // checked={selectedLegs.includes(leg)}
                                     onChange={handleLegCheckboxChange}
                                 />
                                 <label>{leg}</label>
@@ -159,7 +175,7 @@ export default function FlightsFilter(props) {
                                 getAriaLabel={() => 'Price range'}
                                 value={priceRange}
                                 onChange={handleRangeChange}
-                                onChangeCommitted={applyFilter}
+                                onChangeCommitted={updateFilteredFlights}
                                 valueLabelDisplay="auto"
                                 min={minPrice}
                                 max={maxPrice}
