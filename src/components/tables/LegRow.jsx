@@ -1,12 +1,12 @@
+import React from 'react';
+
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
-import React from 'react';
+export default function LegRow({leg}) {
 
-export default function LegRow(props) {
-
-    const { leg } = props;
+    // const { leg } = props;
 
     function convertDate(dateString) {
         let formattedDate = new Date(dateString).toLocaleString();

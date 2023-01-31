@@ -1,3 +1,5 @@
+import React, {useState} from 'react';
+
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
@@ -6,14 +8,12 @@ import Collapse from '@mui/material/Collapse';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-import React, {useState} from 'react';
-
 import SegmentRow from './SegmentRow';
 
 const segmentNames = ["Departure", "Return"];
 
-export default function FlightRow(props) {
-  const { row } = props;
+export default function FlightRow({row}) {
+  //const { row } = props;
   const [open, setOpen] = useState(false);
 
   return (

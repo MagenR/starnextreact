@@ -1,192 +1,110 @@
-import { useState, useEffect } from 'react';
-
-import Box from '@mui/material/Box';
-import Slider from '@mui/material/Slider';
-
-//import Container from '@mui/material/Container';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    //textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
-
-export default function FlightsFilter(props) {
-
-    const { flights } = props;
-    const { setFilteredFlights } = props;
-
-    const uniqueAirlines = [...new Set(flights.flatMap(flight => flight.segments.flatMap(segment => segment.legs.map(leg => leg.airlineName))))];
-
-    const uniquePrices = [...new Set(flights.map(flight => flight.averagePrice))];
-    const minPrice = Math.min(...uniquePrices);
-    const maxPrice = Math.max(...uniquePrices);
-    const marks = uniquePrices.map(price => {
-        return {
-            //label: price,
-            value: price
-        }
-    });
-
-    const uniqueLegs = [...new Set(flights.flatMap(flight =>
-        flight.segments.flatMap(segment => segment.legs.length)
-    ))];
-
-    const [selectedAirlines, setSelectedAirlines] = useState(() => {
-        return uniqueAirlines;
-    });
-    const [priceRange, setPriceRange] = useState(() => {
-        return [minPrice, maxPrice];
-    });
-    const [selectedLegs, setSelectedLegs] = useState(() => {
-        return [...uniqueLegs];
-    });
-
-    useEffect(() => {
-        console.log("filter applied");
-
-        // console.log(minPrice + ' ' + maxPrice);
-        updateFilteredFlights();
-    }, [flights, selectedAirlines, selectedLegs]);
-
-    const handleCheckboxChange = (event) => {
-        const { name } = event.target;
-        if (selectedAirlines.includes(name)) {
-            setSelectedAirlines(selectedAirlines.filter(airline => airline !== name));
-        } else {
-            setSelectedAirlines([...selectedAirlines, name]);
-        }
-    }
-
-    const updateFilteredFlights = () => {
-        setFilteredFlights(applyFilter());
-    }
-
-    const handleLegCheckboxChange = (event) => {
-        const { name } = event.target;
-        //console.log(name);
-        if (selectedLegs.includes(parseInt(name))) {
-            setSelectedLegs(selectedLegs.filter(leg => leg !== parseInt(name)));
-        } else {
-            setSelectedLegs([...selectedLegs, parseInt(name)]);
-        }
-    }
-
-    const handleRangeChange = (event, newValue) => {
-        setPriceRange(newValue);
-    }
-
-    // --------------------------------------------------------------------------------------------
-    // Filter the results and update the list to render.
-    // --------------------------------------------------------------------------------------------
-    const applyFilter = () => {
-        // Check if filters are applied, store in boolean variables.
-        const allAirlines = selectedAirlines.length === 0 || selectedAirlines.length == uniqueAirlines;
-        const allLegs = selectedLegs.length === 0 || selectedLegs.length == uniqueLegs;
-        const fullPriceRange = (priceRange[0] === Infinity && priceRange[1] === -Infinity) ||
-        (priceRange[0] === minPrice && priceRange[1] === maxPrice);
-
-        // If not filter is applied or max filter is applied (everything), no need to filter.
-        if(allAirlines && allLegs && fullPriceRange)
-            return flights;
+// import React, { useState, useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { setFilteredFlights } from '../redux/slices/flightsSlice';
 
 
-        return flights.filter(flight =>
-            flight.segments.every(segment =>
-                (allAirlines || segment.legs.every(leg =>
-                    selectedAirlines.includes(leg.airlineName)) 
-                ) && (allLegs ||
-                selectedLegs.includes(segment.legs.length))
-            ) && (fullPriceRange ||
-            (flight.averagePrice >= priceRange[0] &&
-                flight.averagePrice <= priceRange[1]))
-        )
-    }
+// import Box from '@mui/material/Box';
+// import Slider from '@mui/material/Slider';
 
+// //import Container from '@mui/material/Container';
+// import { styled } from '@mui/material/styles';
+// import Paper from '@mui/material/Paper';
+// import Grid from '@mui/material/Unstable_Grid2';
+// import Typography from '@mui/material/Typography';
 
+// const Item = styled(Paper)(({ theme }) => ({
+//     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+//     ...theme.typography.body2,
+//     padding: theme.spacing(1),
+//     //textAlign: 'center',
+//     color: theme.palette.text.secondary,
+// }));
 
-    function isAirlineIncluded(leg) {
-        return selectedAirlines.includes(leg.airlineName);
-    }
+// export default function applyFilter() {
+//     const dispatch = useDispatch();
+//     const updatedFlightsList = flightsFilter();
 
-    function isLegIncluded(segment) {
-       return selectedLegs.includes(segment.legs.length); 
-    }
+//     dispatch(setFilteredFlights(updatedFlightsList));
+// }
 
-    function IsInPriceRange(flight) {
-        return flight.averagePrice >= priceRange[0] && flight.averagePrice <= priceRange[1];
-    }
+export default function flightsFilter(flights, filterCriteria, filterProps) {
 
-    return (
-        <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2}>
-                {/* Airline Filter */}
-                <Grid xs={12} md={8}>
-                    <Item>
-                        <Typography variant="h5" gutterBottom>
-                            Airlines
-                        </Typography>
-                        {uniqueAirlines.map(airline => (
-                            <div key={airline}>
-                                <input
-                                    type="checkbox"
-                                    name={airline}
-                                    //checked={selectedAirlines.includes(airline)}
-                                    onChange={handleCheckboxChange}
-                                />
-                                <label>{airline}</label>
-                            </div>
-                        ))}
-                    </Item>
-                </Grid>
-                {/* Number of Max Legs Filter */}
-                <Grid xs={12} md={4}>
-                    <Item>
-                        <Typography variant="h5" gutterBottom>
-                            Legs
-                        </Typography>
-                        {uniqueLegs.map(leg => (
-                            <div key={leg}>
-                                <input
-                                    type="checkbox"
-                                    name={leg}
-                                    // checked={selectedLegs.includes(leg)}
-                                    onChange={handleLegCheckboxChange}
-                                />
-                                <label>{leg}</label>
-                            </div>
-                        ))}
-                    </Item>
-                </Grid>
-                {/* Price Filter */}
-                <Grid xs={12}>
-                    <Item>
-                        <Typography variant="h5" gutterBottom>
-                            Price
-                        </Typography>
-                        <Box sx={{ padding: 2 }}>
-                            <Slider
-                                getAriaLabel={() => 'Price range'}
-                                value={priceRange}
-                                onChange={handleRangeChange}
-                                onChangeCommitted={updateFilteredFlights}
-                                valueLabelDisplay="auto"
-                                min={minPrice}
-                                max={maxPrice}
-                                step={null}
-                                marks={marks}
-                            // getAriaValueText={valuetext}
-                            />
-                        </Box>
-                    </Item>
-                </Grid>
-            </Grid>
-        </Box>
-    );
+    // Import data to work with.
+    // const flights = useSelector(state => state.flights.flights);
+    // const filterCriteria = useSelector(state => state.flights.filterCriteria);
+    // const filterProps = useSelector(state => state.flights.filterProps);
+
+    // Spread data for shorter code.
+    const selectedAirlineNames = filterCriteria.selectedAirlineNames;
+    const selectedPriceRange = filterCriteria.selectedPriceRange;
+    const selectedLegsCount = filterCriteria.selectedLegsCount;
+
+    const uniqueAirlineNames = filterProps.uniqueAirlineNames;
+    const uniqueLegsCount = filterProps.uniqueLegsCount;
+    const minPrice = filterProps.minPrice;
+    const maxPrice = filterProps.maxPrice;
+
+    // Check if filters are applied, store in boolean variables.
+    const allAirlines = selectedAirlineNames.length === 0 || selectedAirlineNames.length == uniqueAirlineNames;
+    const allLegs = selectedLegsCount.length === 0 || selectedLegsCount.length == uniqueLegsCount;
+    const fullPriceRange = (selectedPriceRange[0] === Infinity && selectedPriceRange[1] === -Infinity) ||
+    (selectedPriceRange[0] === minPrice && selectedPriceRange[1] === maxPrice);
+
+    // If not filter is applied or max filter is applied (everything), no need to filter, return original list.
+    if(allAirlines && allLegs && fullPriceRange)
+        return flights;
+
+    // Filter the flights, return the new list.
+    return flights.filter(flight =>
+        flight.segments.every(segment =>
+            (allAirlines || segment.legs.every(leg =>
+                selectedAirlineNames.includes(leg.airlineName)) 
+            ) && (allLegs ||
+                selectedLegsCount.includes(segment.legs.length))
+        ) && (fullPriceRange ||
+        (flight.averagePrice >= selectedPriceRange[0] &&
+            flight.averagePrice <= selectedPriceRange[1]))
+    )
 }
+
+// const updateFilteredFlights = () => {
+//     setFilteredFlights(applyFilter());
+// }
+
+// function isAirlineIncluded(leg) {
+//     return selectedAirlines.includes(leg.airlineName);
+// }
+
+// function isLegIncluded(segment) {
+//    return selectedLegs.includes(segment.legs.length); 
+// }
+
+// function IsInPriceRange(flight) {
+//     return flight.averagePrice >= priceRange[0] && flight.averagePrice <= priceRange[1];
+// }
+
+//     return (
+//         <Box sx={{ flexGrow: 1 }}>
+//             <Grid container spacing={2}>
+//                 {/* Airline Filter */}
+//                 <Grid xs={12} md={8}>
+//                     <Item>
+                        
+//                     </Item>
+//                 </Grid>
+//                 {/* Number of Max Legs Filter */}
+//                 <Grid xs={12} md={4}>
+//                     <Item>
+                        
+//                     </Item>
+//                 </Grid>
+//                 {/* Price Filter */}
+//                 <Grid xs={12}>
+//                     <Item>
+                        
+//                     </Item>
+//                 </Grid>
+//             </Grid>
+//         </Box>
+//     );
+// }

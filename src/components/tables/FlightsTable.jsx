@@ -9,10 +9,9 @@ import TableBody from '@mui/material/TableBody';
 import Paper from '@mui/material/Paper';
 
 import FlightRow from './FlightRow';
-//import FlightsFilter from './FlightsFilter';
 
-export default function FlightsTable(props) {
-  const {flights} = props;
+export default function FlightsTable({flights}) {
+  //const {flights} = props;
 
   return (
     <>

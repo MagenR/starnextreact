@@ -1,3 +1,5 @@
+import React, {useEffect} from 'react';
+
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TableHead from '@mui/material/TableHead';
@@ -8,12 +10,11 @@ import Table from '@mui/material/Table';
 
 import LegRow from './LegRow';
 
-import React, {useEffect} from 'react';
+export default function SegmentRow({segment, segmentName}) {
 
-export default function SegmentRow(props) {
-
-    const { segment } = props;
-    const { segmentName } = props;
+    // const { segment } = props;
+    // const { segmentName } = props;
+    
     // const [open, setOpen] = useState(false);
     
     // useEffect(() => {
