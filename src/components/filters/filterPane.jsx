@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
+
 import flightsFilter from "../FlightsFilter";
 import { setFilteredFlights } from "../../redux/slices/flightsSlice";
 
@@ -20,14 +23,22 @@ export default function FilterPane() {
     }
 
     useEffect(() => {
-        //applyFilter();
+        applyFilter();
     }, [filterCriteria])
 
     return (
         <>
-            <AirlineNamesFilter />
-            <LegsCountFilter />
-            <PriceRangeFilter />
+            <Box mb={2}>
+                <AirlineNamesFilter />
+            </Box>
+            <Divider />
+            <Box my={2}>
+                <LegsCountFilter />
+            </Box>
+            <Divider />
+            <Box mt={2}>
+                <PriceRangeFilter />
+            </Box>
         </>
     );
 }

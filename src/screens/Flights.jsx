@@ -2,41 +2,48 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Container from '@mui/material/Container';
 // import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Unstable_Grid2';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
 
-import FlightsTable from "../components/tables/FlightsTable";
+// import FlightsTable from "../components/tables/FlightsTable";
 import FilterPane from '../components/filters/filterPane';
-// import FlightsFilter from '../components/FlightsFilter';
+import HeaderCard from '../components/cardList/tableHeaderCard';
+import FlightsCardList from '../components/cardList/cardList';
+
+const PageContainer = styled(Paper)({
+    padding: 20,
+    backgroundColor: '#dadada'
+});
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    //textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
 
 export default function Flights() {
 
-    // const flights = useSelector(state => state.flights.Flights);
     const filteredFlights = useSelector(state => state.flights.filteredFlights);
 
-    // const [flights, setFlights] = useState([]);
-    // const [filteredFlights, setFilteredFlights] = useState([]);
-
-    // useEffect(() => {
-    //     console.log("fetch runs");
-    //     // Fetch the flights from the API
-    //     fetch('https://localhost:44359/api/flight/search')
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             setFlights(data);
-    //         });
-    // }, []);
-
-//     <Typography variant="h3" sx={{ textAlign: 'center', padding: 2 }}>
-//     Flight App
-// </Typography>
-// {/* <FlightsFilter flights={flights} setFilteredFlights={setFilteredFlights} /> */}
-// <Typography variant="h4" sx={{ textAlign: 'center', padding: 2 }}>
-//     Flights Table
-// </Typography>
-
     return (
-        <Container fixed>
-            <FilterPane />
-            <FlightsTable flights={filteredFlights} />
-        </Container>
+        <PageContainer>
+            <Grid container spacing={2}>
+
+                <Grid md={2}>
+                    <Item>
+                        <FilterPane />
+                    </Item>
+                </Grid>
+                <Grid md={10}>
+                    <HeaderCard />
+                    {/* <FlightsTable flights={filteredFlights} /> */}
+                    <FlightsCardList flights={filteredFlights} />
+
+                </Grid>
+            </Grid>
+        </PageContainer>
     );
 }
