@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import Container from '@mui/material/Container';
+// import Container from '@mui/material/Container';
 // import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import Paper from '@mui/material/Paper';
@@ -31,7 +31,6 @@ export default function Flights() {
     return (
         <PageContainer>
             <Grid container spacing={2}>
-
                 <Grid md={2}>
                     <Item>
                         <FilterPane />
@@ -41,7 +40,6 @@ export default function Flights() {
                     <HeaderCard />
                     {/* <FlightsTable flights={filteredFlights} /> */}
                     <FlightsCardList flights={filteredFlights} />
-
                 </Grid>
             </Grid>
         </PageContainer>

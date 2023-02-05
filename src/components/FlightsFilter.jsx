@@ -1,38 +1,4 @@
-// import React, { useState, useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { setFilteredFlights } from '../redux/slices/flightsSlice';
-
-
-// import Box from '@mui/material/Box';
-// import Slider from '@mui/material/Slider';
-
-// //import Container from '@mui/material/Container';
-// import { styled } from '@mui/material/styles';
-// import Paper from '@mui/material/Paper';
-// import Grid from '@mui/material/Unstable_Grid2';
-// import Typography from '@mui/material/Typography';
-
-// const Item = styled(Paper)(({ theme }) => ({
-//     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-//     ...theme.typography.body2,
-//     padding: theme.spacing(1),
-//     //textAlign: 'center',
-//     color: theme.palette.text.secondary,
-// }));
-
-// export default function applyFilter() {
-//     const dispatch = useDispatch();
-//     const updatedFlightsList = flightsFilter();
-
-//     dispatch(setFilteredFlights(updatedFlightsList));
-// }
-
 export default function flightsFilter(flights, filterCriteria, filterProps) {
-
-    // Import data to work with.
-    // const flights = useSelector(state => state.flights.flights);
-    // const filterCriteria = useSelector(state => state.flights.filterCriteria);
-    // const filterProps = useSelector(state => state.flights.filterProps);
 
     // Spread data for shorter code.
     const selectedAirlineNames = filterCriteria.selectedAirlineNames;
@@ -66,45 +32,3 @@ export default function flightsFilter(flights, filterCriteria, filterProps) {
             flight.averagePrice <= selectedPriceRange[1]))
     )
 }
-
-// const updateFilteredFlights = () => {
-//     setFilteredFlights(applyFilter());
-// }
-
-// function isAirlineIncluded(leg) {
-//     return selectedAirlines.includes(leg.airlineName);
-// }
-
-// function isLegIncluded(segment) {
-//    return selectedLegs.includes(segment.legs.length); 
-// }
-
-// function IsInPriceRange(flight) {
-//     return flight.averagePrice >= priceRange[0] && flight.averagePrice <= priceRange[1];
-// }
-
-//     return (
-//         <Box sx={{ flexGrow: 1 }}>
-//             <Grid container spacing={2}>
-//                 {/* Airline Filter */}
-//                 <Grid xs={12} md={8}>
-//                     <Item>
-                        
-//                     </Item>
-//                 </Grid>
-//                 {/* Number of Max Legs Filter */}
-//                 <Grid xs={12} md={4}>
-//                     <Item>
-                        
-//                     </Item>
-//                 </Grid>
-//                 {/* Price Filter */}
-//                 <Grid xs={12}>
-//                     <Item>
-                        
-//                     </Item>
-//                 </Grid>
-//             </Grid>
-//         </Box>
-//     );
-// }

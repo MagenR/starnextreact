@@ -48,6 +48,7 @@ const flightsSlice = createSlice({
         },
         setFilteredFlights(state, action) {
             state.filteredFlights = action.payload;
+            console.log( state.filteredFlights );
         },
         setSelectedAirlineNames(state, action) {
             state.filterCriteria.selectedAirlineNames = action.payload;

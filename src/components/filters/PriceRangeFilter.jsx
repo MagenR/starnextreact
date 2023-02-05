@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedPriceRange } from '../../redux/slices/flightsSlice';
 import Typography from '@mui/material/Typography';
@@ -26,14 +26,6 @@ export default function PriceRangeFilter() {
             value: price
         }
     });
-
-    // useEffect(() => {
-    //     console.log(uniquePrices);
-    //     console.log(selectedPriceRange);
-    //     console.log(minPrice);
-    //     console.log(maxPrice);
-    //     console.log(marks);
-    // });
 
     return (
         <>

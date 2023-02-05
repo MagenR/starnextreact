@@ -22,7 +22,7 @@ export default function LegCard({ leg }) {
                             {leg.airlineName}
                         </Typography>
                     </Grid>
-                    <Grid xs={3} textAlign={'right'}>
+                    <Grid xs={4} textAlign={'right'}>
                         <Typography  >
                             {leg.departurePoint.airportCode}
                         </Typography>
@@ -30,12 +30,12 @@ export default function LegCard({ leg }) {
                             {convertDate(leg.departurePoint.dateTime)}
                         </Typography>
                     </Grid>
-                    <Grid xs={2}>
+                    <Grid xs={3}>
                         <Divider variant="middle" color="text.secondary">
                         <ConnectingAirportsIcon />
                         </Divider>
                     </Grid>
-                    <Grid xs={3}>
+                    <Grid xs={4}>
                         <Typography >
                             {leg.arrivalPoint.airportCode}
                         </Typography>

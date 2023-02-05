@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedLegCount } from '../../redux/slices/flightsSlice';
 import CheckBoxList from "../CheckBoxList";
@@ -12,11 +12,6 @@ export default function LegsCountFilter() {
     const dispatch = useDispatch();
     const uniqueLegsCount = useSelector(state => state.flights.filterProps.uniqueLegsCount);
     const selectedLegCount = useSelector(state => state.flights.filterCriteria.selectedLegsCount);
-
-    // useEffect(() => { 
-    //     console.log(uniqueLegsCount);
-    //     console.log(selectedLegCount);
-    // });
 
     return (
         <>

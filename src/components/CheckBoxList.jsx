@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Typography from '@mui/material/Typography';
 
 export default function CheckBoxList({ headline, setSelectionList, selectionList, choiceList, itemType }) {
@@ -19,11 +19,6 @@ export default function CheckBoxList({ headline, setSelectionList, selectionList
         else
             setSelectionList([...selectionList, chosenItem]);
     }
-
-    // useEffect(() => { 
-    //     console.log(selectionList);
-    //     console.log(choiceList);
-    // });
 
     return (
         <>
