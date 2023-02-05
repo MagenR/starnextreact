@@ -11,6 +11,8 @@ import FilterPane from '../components/filters/filterPane';
 import HeaderCard from '../components/cardList/tableHeaderCard';
 import FlightsCardList from '../components/cardList/cardList';
 
+import '../App.css';
+
 const PageContainer = styled(Paper)({
     padding: 20,
     backgroundColor: '#dadada'
@@ -22,6 +24,7 @@ const Item = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(1),
     //textAlign: 'center',
     color: theme.palette.text.secondary,
+    position: 'sticky'
 }));
 
 export default function Flights() {
@@ -31,17 +34,27 @@ export default function Flights() {
     return (
         <PageContainer>
             <Grid container spacing={2}>
-                <Grid md={2}>
-                    <Item>
+                <Grid xs={12} md={2}>
+                    <Item className="filterPane">
                         <FilterPane />
                     </Item>
                 </Grid>
-                <Grid md={10}>
+                <Grid xs={12} md={10}>
                     <HeaderCard />
                     {/* <FlightsTable flights={filteredFlights} /> */}
                     <FlightsCardList flights={filteredFlights} />
                 </Grid>
             </Grid>
         </PageContainer>
+        // <div className="PageContainer">
+        //     <div className="filterPane">
+        //         <FilterPane />
+        //     </div>
+        //     <div>
+        //         <HeaderCard />
+        //         {/* <FlightsTable flights={filteredFlights} /> */}
+        //         <FlightsCardList flights={filteredFlights} />
+        //     </div>
+        // </div>
     );
 }
