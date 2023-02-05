@@ -31,7 +31,10 @@ export default function FlightCard({ flight }) {
                         ))}
                     </Grid>
                     <Grid xs={12} md={2}>
-                        <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Box sx={{ height: '100%', display: 'flex',  flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                        <Typography variant="h6" color="text.secondary" textAlign={'center'}>
+                                Price:
+                            </Typography>
                             <Typography variant="h4" color="text.secondary" textAlign={'center'}>
                                 {flight.averagePrice + flight.currencySymbol}
                             </Typography>

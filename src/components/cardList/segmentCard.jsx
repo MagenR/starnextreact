@@ -12,6 +12,8 @@ import Divider from '@mui/material/Divider';
 import FlightIcon from '@mui/icons-material/Flight';
 import LegCard from './LegCard';
 
+import convertDate from '../dateFuncs';
+
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -30,10 +32,10 @@ export default function SegmentCard({ segment }) {
         setExpanded(!expanded);
     };
 
-    function convertDate(dateString) {
-        let formattedDate = new Date(dateString).toLocaleString();
-        return formattedDate;
-    }
+    // function convertDate(dateString) {
+    //     let formattedDate = new Date(dateString).toLocaleString();
+    //     return formattedDate;
+    // }
 
     const Stops = segment.legs.length;
 

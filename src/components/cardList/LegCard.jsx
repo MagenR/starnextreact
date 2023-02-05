@@ -6,12 +6,13 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Divider from '@mui/material/Divider';
 import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
 
+import convertDate from '../dateFuncs';
+
 export default function LegCard({ leg }) {
 
-    function convertDate(dateString) {
-        let formattedDate = new Date(dateString).toLocaleString();
-        return formattedDate;
-    }
+    // function convertDate(dateString) {
+    //     return new Date(dateString).toLocaleString('he-IL', dateOptions);
+    // }
 
     return (
         <Card>
